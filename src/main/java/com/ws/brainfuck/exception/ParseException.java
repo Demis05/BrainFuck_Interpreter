@@ -1,4 +1,4 @@
-package com.ws.brainfuck.util;
+package com.ws.brainfuck.exception;
 
 /**
  * Exception is thrown in case of invalid input data.
@@ -10,7 +10,7 @@ package com.ws.brainfuck.util;
  * can be thrown by the execution of the method or constructor and
  * propagate outside the method or constructor boundary.
  */
-public class ParseException extends Exception {
+public class ParseException extends RuntimeException {
 
     public ParseException(String message) {
         super(message);

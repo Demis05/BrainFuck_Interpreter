@@ -1,21 +1,30 @@
 package com.ws.brainfuck.parser;
 
-
+import com.ws.brainfuck.exception.ParseException;
 import com.ws.brainfuck.node.*;
-import com.ws.brainfuck.util.ParseException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class TokenParser {
 
-    public BodyNode parse(List<Tokens> tokens) throws ParseException {
+    private static final String INVALID_INPUT_ERROR = "Invalid input script!";
+    private final Map<String, Supplier<Node>> nodeMap;
+
+    public TokenParser() {
+        nodeMap = new HashMap<>();
+    }
+
+    public BodyNode parse(List<String> tokens) {
         BodyNode bodyNode = new BodyNode();
         parseBody(tokens, bodyNode);
         return bodyNode;
     }
 
-    private void parseBody(List<Tokens> tokens, BodyNode bodyNode) throws ParseException {
+    private void parseBody(List<String> tokens, BodyNode bodyNode) {
         List<Node> commands = bodyNode.getNodes();
         int current = 0;
         while (current < tokens.size()) {
@@ -30,44 +39,31 @@ public class TokenParser {
         }
     }
 
-    private Node getNode(List<Tokens> tokens, int index) throws ParseException {
-        switch (tokens.get(index)) {
-            case PREV:
-                return new PrevNode();
-            case NEXT:
-                return new NextNode();
-            case INCREMENT:
-                return new IncrementNode();
-            case DECREMENT:
-                return new DecrementNode();
-            case PRINT:
-                return new ShowNode();
-            case LOOP_START:
-                return getLoop(tokens.subList(index, tokens.size()));
-            case LOOP_END:
-                return null;
-            default:
-                throw new ParseException("");
-        }
+    private Node getNode(List<String> tokens, int index) {
+        fillNodeMap(tokens, index);
+        return nodeMap.get(tokens.get(index)).get();
     }
 
-    private Node getLoop(List<Tokens> tokens) throws ParseException {
+    private Node getLoop(List<String> tokens) {
         int startLoop = 1;
         int endLoop = getEndLoopIndex(tokens, startLoop);
-        List<Tokens> bodyLoopTokens = tokens.subList(startLoop, endLoop);
         BodyNode bodyNode = new BodyNode();
-
-        parseBody(bodyLoopTokens, bodyNode);
+        try {
+            List<String> bodyLoopTokens = tokens.subList(startLoop, endLoop);
+            parseBody(bodyLoopTokens, bodyNode);
+        } catch (IllegalArgumentException exc) {
+            throw new ParseException(INVALID_INPUT_ERROR);
+        }
         return new LoopNode(bodyNode);
     }
 
-    private int getEndLoopIndex(List<Tokens> tokens, int start) {
+    private int getEndLoopIndex(List<String> tokens, int start) {
         int counter = 1;
         for (int i = start; i < tokens.size(); i++) {
-            if (Tokens.LOOP_START.equals(tokens.get(i))) {
+            if ("[".equals(tokens.get(i))) {
                 counter++;
             }
-            if (Tokens.LOOP_END.equals(tokens.get(i))) {
+            if ("]".equals(tokens.get(i))) {
                 counter--;
             }
             if (counter == 0) {
@@ -75,5 +71,15 @@ public class TokenParser {
             }
         }
         return -1;
+    }
+
+    private void fillNodeMap(List<String> tokens, int index) {
+        nodeMap.put("<", PrevNode::new);
+        nodeMap.put(">", NextNode::new);
+        nodeMap.put("+", IncrementNode::new);
+        nodeMap.put("-", DecrementNode::new);
+        nodeMap.put(".", ShowNode::new);
+        nodeMap.put("]", null);
+        nodeMap.put("[", () -> getLoop(tokens.subList(index, tokens.size())));
     }
 }

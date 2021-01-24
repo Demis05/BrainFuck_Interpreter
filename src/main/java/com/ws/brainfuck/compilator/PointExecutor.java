@@ -1,13 +1,12 @@
 package com.ws.brainfuck.compilator;
 
-import com.ws.brainfuck.node.Node;
-import com.ws.brainfuck.node.BodyNode;
-import com.ws.brainfuck.node.NextNode;
-import com.ws.brainfuck.node.PrevNode;
-import com.ws.brainfuck.node.IncrementNode;
 import com.ws.brainfuck.node.DecrementNode;
-import com.ws.brainfuck.node.ShowNode;
+import com.ws.brainfuck.node.IncrementNode;
 import com.ws.brainfuck.node.LoopNode;
+import com.ws.brainfuck.node.NextNode;
+import com.ws.brainfuck.node.Node;
+import com.ws.brainfuck.node.PrevNode;
+import com.ws.brainfuck.node.ShowNode;
 
 public class PointExecutor implements Visitor {
 

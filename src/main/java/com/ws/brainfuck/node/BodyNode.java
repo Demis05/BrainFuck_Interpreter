@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BodyNode implements Node {
 
-    List<Node> nodes;
+    private final List<Node> nodes;
 
     public BodyNode() {
         nodes = new ArrayList<>();
@@ -28,7 +28,7 @@ public class BodyNode implements Node {
 
     @Override
     public void execute(PointExecutor pointer) {
-        for (Node node: nodes) {
+        for (Node node : nodes) {
             node.execute(pointer);
         }
     }

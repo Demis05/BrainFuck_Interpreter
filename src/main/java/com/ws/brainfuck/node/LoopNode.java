@@ -19,7 +19,7 @@ public class LoopNode implements Node {
     }
 
     public List<Node> getBodyList() {
-        return body.nodes;
+        return body.getNodes();
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.ws.brainfuck;
 
+import com.ws.brainfuck.exception.ParseException;
 import com.ws.brainfuck.node.Node;
-import com.ws.brainfuck.util.ParseException;
-
-import java.util.List;
 
 public class Demo {
 
-    public static final String PLEASE_INPUT_TEXT = "Please input your BrainFuck code";
-    public static final String EXIT = "exit";
+    private static final String PLEASE_INPUT_TEXT = "Please input your BrainFuck code. Print 'exit' to stop program.";
+    private static final String EXIT = "exit";
 
     public static void main(String[] args) {
         ApplicationContext application = new ApplicationContext();
@@ -21,9 +19,8 @@ public class Demo {
             }
             try {
                 application.validate(input);
-                List<Node> script = application.convertToModel(input);
-                application.compileModel(script);
-                application.cleanMemory();
+                Node body = application.convertToModel(input);
+                application.compileModel(body);
             } catch (ParseException exc) {
                 System.out.println(exc.getMessage());
             }
