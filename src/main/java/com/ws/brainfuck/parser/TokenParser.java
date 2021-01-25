@@ -1,6 +1,5 @@
 package com.ws.brainfuck.parser;
 
-import com.ws.brainfuck.exception.ParseException;
 import com.ws.brainfuck.node.*;
 
 import java.util.HashMap;
@@ -9,6 +8,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+/**
+ * The parser implements the Composite pattern. A compositor is a
+ * structural design pattern that allows you to group multiple
+ * objects into a tree structure and then work with it as if it
+ * were a single object. The parser reads the input sequence of
+ * lines and composes them into a structure of sequential nodes.
+ * The structure consists of simple nodes and composite nodes, which
+ * contain the same nested structure of simple or composite nodes.
+ * The parser cuts the parenthesized sequence of nodes and composes
+ * it into a compound loop node.
+ */
 public class TokenParser {
 
     private static final String INVALID_INPUT_ERROR = "Invalid input script!";
@@ -48,12 +58,8 @@ public class TokenParser {
         int startLoop = 1;
         int endLoop = getEndLoopIndex(tokens, startLoop);
         BodyNode bodyNode = new BodyNode();
-        try {
-            List<String> bodyLoopTokens = tokens.subList(startLoop, endLoop);
-            parseBody(bodyLoopTokens, bodyNode);
-        } catch (IllegalArgumentException exc) {
-            throw new ParseException(INVALID_INPUT_ERROR);
-        }
+        List<String> bodyLoopTokens = tokens.subList(startLoop, endLoop);
+        parseBody(bodyLoopTokens, bodyNode);
         return new LoopNode(bodyNode);
     }
 
