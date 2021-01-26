@@ -11,9 +11,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- */
 public class ApplicationContext {
 
     private static final String INVALID_INPUT_ERROR = "Invalid input script! Please try again";
@@ -62,7 +59,6 @@ public class ApplicationContext {
         node.execute(pointExecutor);
         pointExecutor.cleanMemory();
     }
-
 
     private boolean checkBracketsForValidity(String input) {
         int counter = 0;

@@ -21,7 +21,6 @@ import java.util.function.Supplier;
  */
 public class TokenParser {
 
-    private static final String INVALID_INPUT_ERROR = "Invalid input script!";
     private final Map<String, Supplier<Node>> nodeMap;
 
     public TokenParser() {

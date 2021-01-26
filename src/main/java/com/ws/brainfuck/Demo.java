@@ -21,8 +21,8 @@ public class Demo {
                 application.validate(input);
                 Node body = application.convertToModel(input);
                 application.compileModel(body);
-            } catch (ParseException exc) {
-                System.out.println(exc.getMessage());
+            } catch (ParseException exception) {
+                System.out.println(exception.getMessage());
             }
         }
     }
