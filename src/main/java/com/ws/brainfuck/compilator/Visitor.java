@@ -1,6 +1,6 @@
 package com.ws.brainfuck.compilator;
 
-import com.ws.brainfuck.node.*;
+import com.ws.brainfuck.command.*;
 
 /**
  * The Visitor interface provides an opportunity to implement a tool
@@ -22,13 +22,13 @@ import com.ws.brainfuck.node.*;
  */
 public interface Visitor {
 
-    void execute(NextNode node);
+    void execute(NextCommand command);
 
-    void execute(PrevNode node);
+    void execute(PrevCommand command);
 
-    void execute(IncrementNode node);
+    void execute(IncrementCommand command);
 
-    void execute(DecrementNode node);
+    void execute(DecrementCommand command);
 
-    void execute(LoopNode node);
+    void execute(LoopCommand command);
 }

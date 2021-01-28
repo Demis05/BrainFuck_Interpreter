@@ -1,12 +1,12 @@
-package com.ws.brainfuck.node;
+package com.ws.brainfuck.command;
 
 
-import com.ws.brainfuck.compilator.PointExecutor;
+import com.ws.brainfuck.compilator.CommandExecutor;
 
 import java.util.List;
 
 /**
- * LoopNode allow a container (or composite) is a composite
+ * LoopCommand allow a container (or composite) is a composite
  * tree component. It contains a set of child components, but
  * knows nothing about their types. These can be simple leaf
  * components or other container components. But this is not
@@ -15,21 +15,21 @@ import java.util.List;
  * child components, although they can add something of their
  * own to the result.
  */
-public class LoopNode implements Node {
+public class LoopCommand implements Command {
 
-    private final BodyNode body;
+    private final BodyCommand body;
 
     @Override
-    public void execute(PointExecutor pointer) {
-        pointer.execute(this);
+    public void execute(CommandExecutor executor) {
+        executor.execute(this);
     }
 
-    public LoopNode(BodyNode body) {
+    public LoopCommand(BodyCommand body) {
         this.body = body;
     }
 
-    public List<Node> getBodyList() {
-        return body.getNodes();
+    public List<Command> getBodyList() {
+        return body.getCommands();
     }
 
     @Override
